@@ -1,4 +1,4 @@
-resource "random_password" "user_password" {
+resource "random_string" "user_password" {
   length           = 16
   special          = false
   override_special = "!@#$%^&*()_+"
@@ -15,15 +15,15 @@ resource "random_string" "id" {
   special = false
 }
 
-resource "random_password" "db_password" {
+resource "random_string" "db_password" {
   length           = 16
   special          = false
   override_special = "!@#$%^&*()_+"
 }
 
-locals{
-id = random_string.id.result
-prefix = random_integer.unique_prefix.result
-password = random_password.user_password.result
-db_password =random_password.db_password.result
+locals {
+  id          = random_string.id.result
+  prefix      = random_integer.unique_prefix.result
+  password    = random_string.user_password.result
+  db_password = random_string.db_password.result
 }

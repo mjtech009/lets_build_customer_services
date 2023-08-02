@@ -16,14 +16,14 @@ variable "SECRET" {
 
 
 variable "vpc-cidr" {
-  type = string
+  type    = string
   default = "10.1"
 }
 
 
 variable "region" {
-  type=string
-  
+  type = string
+
 }
 
 variable "instance_type_map" {
@@ -45,9 +45,10 @@ variable "volume_size_map" {
 }
 
 variable "cust_detail" {
-  type = object({
+    type = object({
     cust_name = string
-    plan = string
-    user_id = string
+    plan      = string
+    user_id   = string
   })
 }
+

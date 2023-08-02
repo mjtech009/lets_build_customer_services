@@ -10,12 +10,14 @@ resource "null_resource" "setup" {
   }
 
   provisioner "file" {
-    content   =  user_data = base64encode(null_resource.compose.triggers.user_data)
-    destination = "/root/docker-compose.yaml"
+    content     = null_resource.compose.triggers.user_data
+    destination = "/home/ubuntu/docker-compose.yaml"
   }
   provisioner "remote-exec" {
-    
+
     inline = [
+      "sudo chmod 777 /var/run/docker.sock",
+      "cd /home/ubuntu",
       "docker-compose up -d",
       "nohup docker-compose logs"
     ]
