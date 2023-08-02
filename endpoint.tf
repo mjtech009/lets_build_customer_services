@@ -9,43 +9,38 @@ resource "aws_service_discovery_private_dns_namespace" "lets-build_namespace" {
 
 }
 
+
 resource "aws_service_discovery_service" "lets-build" {
-  name              = "lets-build"
-  dns_namespace_id = aws_service_discovery_private_dns_namespace.lets-build_namespace.id
+  name = "${var.cust_detail.user_id}"
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.lets-build_namespace.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+    routing_policy = "MULTIVALUE"
+  }
+  health_check_custom_config {
+    failure_threshold = 1
+  }
 }
 
-resource "aws_route53_record" "instance_records" {
-  zone_id = aws_route53_zone.private_zone.zone_id
-  name    = "server.lets-build.local"
-  type    = "A"
-  ttl     = "300"
+# resource "aws_route53_record" "instance_records" {
+#   zone_id = aws_route53_zone.private_zone.zone_id
+#   name    = "${var.cust_detail.user_id}.lets-build.local"
+#   type    = "A"
+#   ttl     = "300"
 
-  records = [aws_instance.this.private_ip]
-}
+#   records = [aws_instance.this.private_ip]
+# }
 
-resource "aws_service_discovery_service_instance" "81_instances" {
-  count            = length(var.instance_ips)
-  service_id       = aws_service_discovery_service.lets-build.id
-  instance_id      = "server" 
-  instance_ip      = [aws_instance.this.private_ip]
-  instance_port    = 81 
-  custom_attributes = {}
-}
+resource "aws_service_discovery_instance" "lets-build" {
+  instance_id = aws_instance.this.id
+  service_id  = aws_service_discovery_service.lets-build.id
 
-resource "aws_service_discovery_service_instance" "3306_instances" {
-  count            = length(var.instance_ips)
-  service_id       = aws_service_discovery_service.lets-build.id
-  instance_id      = "server" 
-  instance_ip      = [aws_instance.this.private_ip]
-  instance_port    = 3306 
-  custom_attributes = {}
-}
-
-resource "aws_service_discovery_service_instance" "15672_instances" {
-  count            = length(var.instance_ips)
-  service_id       = aws_service_discovery_service.lets-build.id
-  instance_id      = "server" 
-  instance_ip      = [aws_instance.this.private_ip]
-  instance_port    = 15672 
-  custom_attributes = {}
+  attributes = {
+    AWS_INSTANCE_IPV4 = aws_instance.this.private_ip
+    custom_attribute  = "custom"
+  }
 }
