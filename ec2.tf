@@ -53,7 +53,7 @@ resource "aws_security_group" "this" {
 
 resource "aws_instance" "this" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = var.plan == "free" ? "t3.micro" : var.plan == "basic" ? "t3.medium" : var.plan == "premium" ? "t3.large" : "t2.micro"
+  instance_type               = var.instance_type_map[var.plan]
   subnet_id                   = aws_subnet.public_subnet[0].id
   vpc_security_group_ids      = [aws_security_group.this.id]
   key_name                    = aws_key_pair.pem.key_name
@@ -61,7 +61,7 @@ resource "aws_instance" "this" {
   iam_instance_profile = aws_iam_instance_profile.profile.name
 
   root_block_device {
-    volume_size           = var.plan == "free" ? "20" : var.plan == "basic" ? "50" : var.plan == "premium" ? "100" : "10"
+    volume_size           = var.volume_size_map[var.plan]
     volume_type           = "gp3"
     encrypted             = true
     delete_on_termination = false
@@ -72,7 +72,7 @@ resource "aws_instance" "this" {
     ]
   }
 
-  user_data = local.userdata_file
+  user_data = base64encode(null_resource.plain_user_data.triggers.user_data)
   tags = {
     Id = local.id
     Name = "${var.cust_name}"

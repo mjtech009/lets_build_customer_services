@@ -21,21 +21,33 @@ variable "vpc-cidr" {
 }
 
 
-
-
-variable "plan"{
-  type = string
-  default = "free"
-}
-
-variable "cust_name" {
-  type=string
-  
-}
-
 variable "region" {
   type=string
   
 }
 
+variable "instance_type_map" {
+  type = map(string)
+  default = {
+    "free"    = "t3.micro"
+    "basic"   = "t3.medium"
+    "premium" = "t3.large"
+  }
+}
 
+variable "volume_size_map" {
+  type = map(string)
+  default = {
+    "free"    = "20"
+    "basic"   = "50"
+    "premium" = "100"
+  }
+}
+
+variable "cust_detail" {
+  type = object({
+    cust_name = string
+    plan = string
+    user_id = string
+  })
+}

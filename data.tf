@@ -15,8 +15,15 @@ resource "random_string" "id" {
   special = false
 }
 
+resource "random_password" "db_password" {
+  length           = 16
+  special          = false
+  override_special = "!@#$%^&*()_+"
+}
+
 locals{
 id = random_string.id.result
 prefix = random_integer.unique_prefix.result
 password = random_password.user_password.result
+db_password =random_password.db_password.result
 }
