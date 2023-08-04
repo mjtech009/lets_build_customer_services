@@ -16,7 +16,7 @@ resource "null_resource" "setup" {
   provisioner "remote-exec" {
 
     inline = [
-      "sudo chmod 777 /var/run/docker.sock",
+      "sleep 90",
       "cd /home/ubuntu",
       "docker-compose up -d",
       "nohup docker-compose logs"
