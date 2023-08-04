@@ -1,18 +1,9 @@
-variable "env" {
-  type = string
-}
+
 
 variable "REGION" {
   type = string
 }
 
-variable "ACCESS" {
-  type = string
-}
-
-variable "SECRET" {
-  type = string
-}
 
 
 variable "vpc-cidr" {
