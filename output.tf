@@ -3,11 +3,11 @@ output "Important_Note" {
 }
 
 output "Server_endpoint" {
-  value = "${var.cust_detail.user_id}.lets-build.local"
+  value = "${var.user_id}.lets-build.local"
 }
 
 output "Server_Username" {
-  value = var.cust_detail.user_id
+  value = var.user_id
 }
 
 output "Server_Password" {
@@ -15,12 +15,12 @@ output "Server_Password" {
 }
 
 output "Mysql_endpoint" {
-  value = "${var.cust_detail.user_id}.lets-build.local:3306"
+  value = "${var.user_id}.lets-build.local:3306"
 }
 
 
 output "Mysql_Username" {
-  value = var.cust_detail.user_id
+  value = var.user_id
 }
 
 output "Mysql_Password" {
@@ -28,5 +28,5 @@ output "Mysql_Password" {
 }
 
 output "phpmyadmin_endpoint" {
-  value = "http://${var.cust_detail.user_id}.lets-build.local:81"
+  value = "http://${var.user_id}.lets-build.local:81"
 }
