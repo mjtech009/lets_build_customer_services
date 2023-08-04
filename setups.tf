@@ -18,7 +18,7 @@ resource "null_resource" "setup" {
     inline = [
       "sleep 90",
       "cd /home/ubuntu",
-      "docker-compose up -d",
+      "/usr/bin/docker-compose up -d",
       "nohup docker-compose logs"
     ]
   }
