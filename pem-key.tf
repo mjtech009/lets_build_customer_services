@@ -6,7 +6,7 @@ resource "tls_private_key" "pem" {
 
 resource "aws_key_pair" "pem" {
   # key_name   = var.key_name
-  key_name   = "${local.id}-${var.cust_detail.plan}-lets-build"
+  key_name   = "${local.id}-${var.plan}-lets-build"
   public_key = tls_private_key.pem.public_key_openssh
 }
 

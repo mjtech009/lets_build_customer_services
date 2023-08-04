@@ -9,7 +9,7 @@ resource "aws_service_discovery_private_dns_namespace" "lets-build_namespace" {
 
 
 resource "aws_service_discovery_service" "lets-build" {
-  name = var.cust_detail.user_id
+  name = var.user_id
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.lets-build_namespace.id
 
@@ -26,7 +26,7 @@ resource "aws_service_discovery_service" "lets-build" {
 
 # resource "aws_route53_record" "instance_records" {
 #   zone_id = aws_route53_zone.private_zone.zone_id
-#   name    = "${var.cust_detail.user_id}.lets-build.local"
+#   name    = "${var.user_id}.lets-build.local"
 #   type    = "A"
 #   ttl     = "300"
 

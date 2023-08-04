@@ -20,7 +20,7 @@ resource "aws_vpc" "vpc" {
   cidr_block           = "${var.vpc-cidr}.0.0/16"
   enable_dns_hostnames = true
   tags = {
-    Name = "${local.id}-${var.cust_detail.plan}-vpc"
+    Name = "${local.id}-${var.plan}-vpc"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = var.region == "us-east-1" ? local.az_name[count.index] : length(data.aws_availability_zones.available.names)
   map_public_ip_on_launch = true
   tags = {
-    Name                     = "${local.id}-${var.cust_detail.plan}-Public_Subnet_${1 + count.index}"
+    Name                     = "${local.id}-${var.plan}-Public_Subnet_${1 + count.index}"
     "kubernetes.io/role/elb" = 1
 
   }
@@ -49,7 +49,7 @@ resource "aws_subnet" "private_subnet" {
   availability_zone       = var.region == "us-east-1" ? local.az_name[count.index] : length(data.aws_availability_zones.available.names)
   map_public_ip_on_launch = false
   tags = {
-    Name = "${local.id}-${var.cust_detail.plan}-Private_Subnet_${1 + count.index}"
+    Name = "${local.id}-${var.plan}-Private_Subnet_${1 + count.index}"
 
   }
 }
@@ -60,7 +60,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "${local.id}-${var.cust_detail.plan}-IGW"
+    Name = "${local.id}-${var.plan}-IGW"
   }
 }
 
@@ -75,7 +75,7 @@ resource "aws_route_table" "public-rt" {
 
 
   tags = {
-    Name = "${local.id}-${var.cust_detail.plan}-Public_Route_Table"
+    Name = "${local.id}-${var.plan}-Public_Route_Table"
 
   }
 }
@@ -85,7 +85,7 @@ resource "aws_eip" "nat-ip" {
   vpc = true
 
   tags = {
-    Name = "${local.id}-${var.cust_detail.plan}-NAT_EIP"
+    Name = "${local.id}-${var.plan}-NAT_EIP"
   }
 }
 
@@ -98,7 +98,7 @@ resource "aws_nat_gateway" "nat" {
   subnet_id     = aws_subnet.public_subnet[0].id
 
   tags = {
-    Name = "${local.id}-${var.cust_detail.plan}-NAT_Gateway"
+    Name = "${local.id}-${var.plan}-NAT_Gateway"
   }
   depends_on = [aws_internet_gateway.igw]
 }
