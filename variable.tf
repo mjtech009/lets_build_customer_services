@@ -44,11 +44,14 @@ variable "volume_size_map" {
   }
 }
 
-variable "cust_detail" {
-    type = object({
-    cust_name = string
-    plan      = string
-    user_id   = string
-  })
+variable "cust_name" {
+    type = string
 }
+variable "plan" {
+    type = string
+}
+variable "user_id" {
+    type = string
+}
+
 
