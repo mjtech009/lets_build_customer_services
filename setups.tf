@@ -17,9 +17,10 @@ resource "null_resource" "setup" {
 
     inline = [
       "sleep 90",
+      "sudo chmod 777 /var/log/docker.sock",
       "cd /home/ubuntu",
-      "/usr/bin/docker-compose up -d",
-      "nohup docker-compose logs"
+      "docker-compose up -d",
+      "nohup docker-compose logs &"
     ]
   }
 }
