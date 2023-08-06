@@ -1,0 +1,26 @@
+networks:
+  my_network: {}
+services:
+  service1:
+    environment:
+      VAR1: value1
+      VAR2: value2
+    image: service1:latest
+    networks:
+    - my_network
+    ports:
+    - 8000:80
+    - 8001:80
+    restart: always
+  service2:
+    environment:
+      VAR3: value3
+      VAR4: value4
+    image: service2:latest
+    networks:
+    - my_network
+    ports:
+    - 8000:80
+    - 8001:80
+    restart: always
+version: '3'
